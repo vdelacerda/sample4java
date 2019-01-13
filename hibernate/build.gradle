@@ -1,0 +1,15 @@
+plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	implementation 'org.hibernate:hibernate-core:5.4.0.Final'
+	implementation 'com.h2database:h2:1.4.197'
+
+    testImplementation 'junit:junit:4.12'
+}
