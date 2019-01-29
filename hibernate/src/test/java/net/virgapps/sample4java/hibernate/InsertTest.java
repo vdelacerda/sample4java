@@ -1,6 +1,5 @@
 package net.virgapps.sample4java.hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -11,25 +10,23 @@ import net.virgapps.sample4java.hibernate.model.Team;
 
 public class InsertTest extends TestCase {
 	private TeamDAO teamDAO;
+	private PlayerDAO playerDAO;
 	
 	@Override
 	protected void setUp() throws Exception {
 		teamDAO = new TeamDAO();
+		playerDAO = new PlayerDAO();
 	}
 	
 	public void testInsertTeam() {
 		Team knicks = new Team("New-York", "Knicks");
 		Team lakers = new Team("Los Angeles", "Lakers");
 		
-		List<Player> lakersPlayers = new ArrayList<Player>();
-		lakersPlayers.add(new Player("LeBron", "James"));
-		lakersPlayers.add(new Player("Rajon", "Rondo"));
-		lakers.setPlayers(lakersPlayers);
+		knicks.addPlayer(new Player("LeBron", "James"));
+		knicks.addPlayer(new Player("Rajon", "Rondo"));
 		
-		List<Player> knicksPlayers = new ArrayList<Player>();
-		knicksPlayers.add(new Player("Kristaps", "Porzingis"));
-		knicksPlayers.add(new Player("Franck", "Ntilikina"));
-		knicks.setPlayers(knicksPlayers);
+		knicks.addPlayer(new Player("Kristaps", "Porzingis"));
+		knicks.addPlayer(new Player("Franck", "Ntilikina"));
 		
 		teamDAO.persist(knicks);
 		teamDAO.persist(lakers);
@@ -41,6 +38,11 @@ public class InsertTest extends TestCase {
 			for (Player player: team.getPlayers()) {
 				System.out.println(player.getFirstName() + " " + player.getLastName());
 			}
+		}
+		
+		List<Player> players = playerDAO.findAll();
+		for (Player player: players) {
+			System.out.println(player.getFirstName() + " " + player.getLastName() + " plays for " + player.getTeam().getName());
 		}
 		
 		Assert.assertEquals(teams.size(), 2);

@@ -51,11 +51,16 @@ public class Team {
 		this.name = name;
 	}
 	
-	@OneToMany(cascade= {CascadeType.ALL})
+	@OneToMany(mappedBy = "team", cascade = {CascadeType.ALL})
 	public Collection<Player> getPlayers() {
 		return this.players;
 	}
 	public void setPlayers(Collection<Player> players) {
 		this.players = players;
+	}
+	
+	public void addPlayer(Player player) {
+		players.add(player);
+		player.setTeam(this);
 	}
 }
